@@ -13,9 +13,14 @@
         <div>
             @auth
                 <a href="{{ route('dashboard') }}">Dashboard</a>
-                
+
                 @if(Auth::user()->role === 'admin')
                     <a href="{{ route('resources.index') }}">Gestion Matériel</a>
+                @endif
+
+                {{-- Menu reserve a l'admin for gestion users --}}
+                @if(Auth::user()->role === 'admin')
+                    <a href="{{route('users.index')}}">Gestion Utilisateurs</a>
                 @endif
 
                 <!-- Bouton de déconnexion -->

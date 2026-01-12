@@ -24,15 +24,19 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
 
 
     Route::post('/resources', [ResourceController::class, 'store'])->name('resources.store');
-    
+
     // Modification
     Route::get('/resources/{id}/edit', [ResourceController::class, 'edit'])->name('resources.edit');
     Route::put('/resources/{id}', [ResourceController::class, 'update'])->name('resources.update');
     Route::delete('/resources/{id}', [ResourceController::class, 'destroy'])->name('resources.destroy');
-    
+
     // Validation des réservations
     Route::put('/reservations/{id}/validate', [ReservationController::class, 'validateReservation'])->name('reservations.validate');
 
+    //Gestion des users:
+    Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+    Route::post('/users/{id}/promote', [App\Http\Controllers\UserController::class, 'promote'])->name('users.promote');
+    Route::post('/users/{id}/ban', [App\Http\Controllers\UserController::class, 'toggleBan'])->name('users.ban');
 });
 
 // === SYSTEME DE RESERVATION (MEMBRE 3) ===
@@ -48,4 +52,6 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/dashboard', [DashboardController::class, 'index'])
 ->middleware(['auth', 'verified'])->name('dashboard');
+
+
 

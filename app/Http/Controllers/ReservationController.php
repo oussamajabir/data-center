@@ -13,6 +13,9 @@ class ReservationController extends Controller
     // On reçoit l'ID de la ressource qu'on veut réserver
     public function create($resource_id)
     {
+        if(Auth::user()->role === 'invite') {
+            abort(403, "Votre compte n'est pas encore validé par l'administrateur.");
+        }
         $resource = Resource::findOrFail($resource_id);
         return view('reservations.create', compact('resource'));
     }
@@ -20,6 +23,10 @@ class ReservationController extends Controller
     // 2. Traitement de la réservation (LE GROS MORCEAU)
     public function store(Request $request)
     {
+        //check if the user is invite
+        if(Auth::user()->role === 'invite') {
+            abort(403, "Votre compte n'est pas encore validé par l'administrateur.");
+        }
         // A. Validation basique
         $request->validate([
             'resource_id' => 'required|exists:resources,id',
@@ -35,7 +42,7 @@ class ReservationController extends Controller
             ->where('status', '!=', 'rejected')
             ->where(function ($query) use ($request) {
 
-            
+
                 $query->where('start_date', '<', $request->end_date)
                       ->where('end_date', '>', $request->start_date);
             })
@@ -63,7 +70,7 @@ class ReservationController extends Controller
     public function validateReservation($id)
     {
         $reservation = Reservation::findOrFail($id);
-        
+
         // On change le statut
         $reservation->status = 'confirmed'; // "confirmed" = officiellement réservé
         $reservation->save();
