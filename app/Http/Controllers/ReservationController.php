@@ -28,14 +28,14 @@ class ReservationController extends Controller
             'reason'      => 'required|string|max:500',
         ]);
 
-        // B. ALGORITHME DE CHEVAUCHEMENT (OVERLAPPING)
+
         // On cherche s'il existe UNE réservation pour CETTE ressource
-        // qui n'est PAS rejetée...
+
         $conflit = Reservation::where('resource_id', $request->resource_id)
             ->where('status', '!=', 'rejected')
             ->where(function ($query) use ($request) {
-                // ...et dont les dates se croisent avec ma demande.
-                // Logique : (Début Existant < Fin Demandée) ET (Fin Existante > Début Demandé)
+
+            
                 $query->where('start_date', '<', $request->end_date)
                       ->where('end_date', '>', $request->start_date);
             })

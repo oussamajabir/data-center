@@ -14,6 +14,17 @@
         </div>
     @endif
 
+    <!-- AJOUT : Affichage des erreurs de validation -->
+    @if ($errors->any())
+        <div style="background-color: #fee2e2; color: #b91c1c; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <ul style="margin: 0; padding-left: 20px;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <!-- Fin AJOUT -->
     <form action="{{ route('reservations.store') }}" method="POST">
         @csrf
 

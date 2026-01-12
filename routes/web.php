@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// On importe les Contrôleurs ici pour que ce soit plus propre
+
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ReservationController;
-
+use App\Http\Controllers\DashboardController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,15 +22,22 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
     Route::get('/resources', [ResourceController::class, 'index'])->name('resources.index');
     Route::get('/resources/create', [ResourceController::class, 'create'])->name('resources.create');
 
-    // CORRECTION ICI : Le crochet ] se met APRES 'store'
+
     Route::post('/resources', [ResourceController::class, 'store'])->name('resources.store');
 
 });
 
 // === SYSTEME DE RESERVATION (MEMBRE 3) ===
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth'])->group(function () {
 
-    Route::get('/reserve/{resource_id}', [ReservationController::class, 'create'])->name('reservations.create');
-    Route::post('/reserve', [ReservationController::class, 'store'])->name('reservations.store');
+    // Afficher le formulaire pour UNE ressource spécifique
+    Route::get('/reserve/{resource_id}', [App\Http\Controllers\ReservationController::class, 'create'])
+        ->name('reservations.create');
 
+    // Enregistrer la réservation (POST)
+    Route::post('/reserve', [App\Http\Controllers\ReservationController::class, 'store'])
+        ->name('reservations.store');
 });
+Route::get('/dashboard', [DashboardController::class, 'index'])
+->middleware(['auth', 'verified'])->name('dashboard');
+
