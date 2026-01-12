@@ -2,56 +2,51 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Import propre des contrôleurs
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 require __DIR__.'/auth.php';
 
-// === GESTION DU MATERIEL (MEMBRE 2) ===
-// Route sécurisée Admin
+// --- TABLEAU DE BORD ---
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+// === ESPACE ADMIN (Membre 1 & 2) ===
 Route::middleware(['auth', 'role:admin'])->group(function() {
 
+    // Gestion Matériel
     Route::get('/resources', [ResourceController::class, 'index'])->name('resources.index');
     Route::get('/resources/create', [ResourceController::class, 'create'])->name('resources.create');
-
-
     Route::post('/resources', [ResourceController::class, 'store'])->name('resources.store');
 
-    // Modification
+    // Modification & Suppression
     Route::get('/resources/{id}/edit', [ResourceController::class, 'edit'])->name('resources.edit');
     Route::put('/resources/{id}', [ResourceController::class, 'update'])->name('resources.update');
     Route::delete('/resources/{id}', [ResourceController::class, 'destroy'])->name('resources.destroy');
 
-    // Validation des réservations
+    // Activer/Désactiver
+    Route::put('/resources/{id}/toggle', [ResourceController::class, 'toggleState'])->name('resources.toggle');
+
+    // Gestion des Users
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users/{id}/promote', [UserController::class, 'promote'])->name('users.promote');
+    Route::post('/users/{id}/ban', [UserController::class, 'toggleBan'])->name('users.ban');
+
+    // Validation des réservations (Route PUT demandée)
     Route::put('/reservations/{id}/validate', [ReservationController::class, 'validateReservation'])->name('reservations.validate');
-
-    //Gestion des users:
-    Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    Route::post('/users/{id}/promote', [App\Http\Controllers\UserController::class, 'promote'])->name('users.promote');
-    Route::post('/users/{id}/ban', [App\Http\Controllers\UserController::class, 'toggleBan'])->name('users.ban');
 });
 
-// === SYSTEME DE RESERVATION (MEMBRE 3) ===
+// === SYSTEME DE RESERVATION (Membre 3) ===
 Route::middleware(['auth'])->group(function () {
-
-    // Afficher le formulaire pour UNE ressource spécifique
-    Route::get('/reserve/{resource_id}', [App\Http\Controllers\ReservationController::class, 'create'])
-        ->name('reservations.create');
-
-    // Enregistrer la réservation (POST)
-    Route::post('/reserve', [App\Http\Controllers\ReservationController::class, 'store'])
-        ->name('reservations.store');
+    // Création d'une demande
+    Route::get('/reserve/{resource_id}', [ReservationController::class, 'create'])->name('reservations.create');
+    Route::post('/reserve', [ReservationController::class, 'store'])->name('reservations.store');
 });
-Route::get('/dashboard', [DashboardController::class, 'index'])
-->middleware(['auth', 'verified'])->name('dashboard');
-
-
-

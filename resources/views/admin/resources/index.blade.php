@@ -24,9 +24,15 @@
                 <td>{{ $resource->category->name }}</td>
                 <td>{{ $resource->name }}</td>
                 <td>
-                    <span style="background: #10b981; color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px;">
-                        {{ $resource->state }}
-                    </span>
+                    <form action="{{ route('resources.toggle', $resource->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" 
+                            style="border: none; cursor: pointer; border-radius: 12px; padding: 5px 10px; font-weight: bold; font-size: 12px; color: white;
+                            background-color: {{ $resource->state === 'active' ? '#10b981' : '#ef4444' }};">
+                            {{ ucfirst($resource->state) }}
+                        </button>
+                    </form>
                 </td>
                 <td>
                     <a href="{{ route('resources.edit', $resource->id) }}" class="btn btn-primary" style="font-size: 12px;">Modifier</a>
