@@ -29,6 +29,7 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
     Route::get('/resources/{id}/edit', [ResourceController::class, 'edit'])->name('resources.edit');
     Route::put('/resources/{id}', [ResourceController::class, 'update'])->name('resources.update');
     Route::delete('/resources/{id}', [ResourceController::class, 'destroy'])->name('resources.destroy');
+    Route::put('/resources/{id}/toggle', [ResourceController::class, 'toggleState'])->name('resources.toggle');
     
     // Validation des réservations
     Route::put('/reservations/{id}/validate', [ReservationController::class, 'validateReservation'])->name('reservations.validate');

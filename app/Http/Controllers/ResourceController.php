@@ -79,4 +79,19 @@ class ResourceController extends Controller
         return redirect()->route('resources.index')->with('succes', 'Matériel supprimé avec succès.');
     }
 
+    // 7. Basculer l'état (Actif / Hors Service)
+    public function toggleState($id)
+    {
+        $resource = Resource::findOrFail($id);
+
+        if ($resource->state === 'active') {
+            $resource->state = 'hors_service';
+        } else {
+            $resource->state = 'active';
+        }
+        
+        $resource->save();
+
+        return redirect()->back()->with('succes', 'État du ressource mis à jour.');
+    }
 }
