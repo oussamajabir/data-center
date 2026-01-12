@@ -13,6 +13,11 @@
         <div>
             @auth
                 <a href="{{ route('dashboard') }}">Dashboard</a>
+                
+                @if(Auth::user()->role === 'admin')
+                    <a href="{{ route('resources.index') }}">Gestion Matériel</a>
+                @endif
+
                 <!-- Bouton de déconnexion -->
                 <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                     @csrf
