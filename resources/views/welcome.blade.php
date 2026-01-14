@@ -13,11 +13,11 @@
             <ul>
                 @if (Route::has('login'))
                     @auth
-                        <li><a href="{{ url('/dashboard') }}">Mon Tableau de Bord</a></li>
+                        <a href="{{ url('/dashboard') }}">Mon Tableau de Bord</a>
                     @else
-                        <li><a href="{{ route('login') }}">Connexion</a></li>
+                        <a href="{{ route('login') }}">Connexion</a>
                         @if (Route::has('register'))
-                            <li><a href="{{ route('register') }}">Inscription</a></li>
+                            <a href="{{ route('register') }}">Inscription</a>
                         @endif
                     @endauth
                 @endif

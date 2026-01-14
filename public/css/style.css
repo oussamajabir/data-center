@@ -64,7 +64,13 @@ body {
     cursor: pointer; 
     text-decoration: none; 
     display:inline-block; }
-.btn-primary { background: #4f46e5; color: white; }
+.btn-primary { 
+    background: #4f46e5; 
+    color: white; 
+    border-radius: 15px;
+    border :none;
+    padding: 8px 15px;
+}
 table { width: 100%; border-collapse: collapse; margin-top: 10px; }
 th, td { padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: left; }
 th { background: #f9fafb; }
