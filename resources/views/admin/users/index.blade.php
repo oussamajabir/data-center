@@ -25,7 +25,7 @@
                         {{ $user->role }}
                         </span>
                     </td>
-                    <td>
+                    <td class="space">
                         {{-- Si c'est inviter bouton pour le valider --}}
                         @if($user->email !== 'admin@gmail.com' && $user->email !== 'respo@gmail.com')
                         {{-- Formulaire de changement de rôle (Remplacer le bouton Valider simple) --}}
