@@ -4,33 +4,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Data Center Manager</title>
+    <!-- RemixIcon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <!-- IMPORTANT : On lie notre CSS manuel -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
     <nav class="navbar">
-        <a href="{{ url('/') }}" style="font-weight:bold; font-size:1.2rem;">DC Manager</a>
+        <a href="{{ url('/') }}" style="font-weight:bold; font-size:1.2rem;"><i class="ri-server-fill"></i> DC Manager</a>
         <div>
             @auth
-                <a href="{{ route('dashboard') }}">Dashboard</a>
+                <a href="{{ route('dashboard') }}"><i class="ri-dashboard-3-line"></i> Dashboard</a>
 
                 @if(Auth::user()->role === 'admin')
-                    <a href="{{ route('resources.index') }}">Gestion Matériel</a>
+                    <a href="{{ route('resources.index') }}"><i class="ri-hard-drive-2-line"></i> Gestion Matériel</a>
                 @endif
 
                 {{-- Menu reserve a l'admin for gestion users --}}
                 @if(Auth::user()->role === 'admin')
-                    <a href="{{route('users.index')}}">Gestion Utilisateurs</a>
+                    <a href="{{route('users.index')}}"><i class="ri-group-line"></i> Gestion Utilisateurs</a>
                 @endif
 
                 <!-- Bouton de déconnexion -->
                 <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                     @csrf
-                    <button type="submit">Déconnexion</button>
+                    <button type="submit"><i class="ri-logout-box-r-line"></i> Déconnexion</button>
                 </form>
             @else
-                <a href="{{ route('login') }}">Connexion</a>
-                <a href="{{ route('register') }}">Inscription</a>
+                <a href="{{ route('login') }}"><i class="ri-login-box-line"></i> Connexion</a>
+                <a href="{{ route('register') }}"><i class="ri-user-add-line"></i> Inscription</a>
             @endauth
         </div>
     </nav>

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="card">
-    <h1>Bonjour, {{ Auth::user()->name }} 👋</h1>
+    <h1>Bonjour, {{ Auth::user()->name }} <i class="ri-hand-heart-line" style="color: #f59e0b;"></i></h1>
     <p>Rôle : <span style="color:#4f46e5; font-weight: bold; padding: 0;">{{ Auth::user()->role }}</span></p>
 </div>
 
@@ -66,7 +66,7 @@
 @else
 <!-- VUE ETUDIANT / UTILISATEUR -->
 
-    <h2>📅 Mes Réservations</h2>
+    <h2><i class="ri-calendar-check-line" style="vertical-align: middle;"></i> Mes Réservations</h2>
     <div class="card">
         @if($myReservations->isEmpty())
             <p>Vous n'avez aucune réservation.</p>
@@ -95,7 +95,7 @@
         @endif
     </div>
 
-    <h2>💻 Catalogue Matériel (Réserver)</h2>
+    <h2><i class="ri-macbook-line" style="vertical-align: middle;"></i> Catalogue Matériel (Réserver)</h2>
     <div class="card">
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
             @foreach($resources as $resource)
