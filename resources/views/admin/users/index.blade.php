@@ -30,12 +30,12 @@
                         {{-- Formulaire de changement de rôle (Remplacer le bouton Valider simple) --}}
                         <form action="{{route('users.promote', $user->id)}}" method="POST" style="display:inline-flex; gap: 5px; align-items: center;">
                             @csrf
-                            <select name="role" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                            <select name="role" style="color: white;padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
                                 <option value="interne" {{ $user->role == 'interne' ? 'selected' : '' }}>Interne</option>
                                 <option value="responsable" {{ $user->role == 'responsable' ? 'selected' : '' }}>Responsable</option>
                                 <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                             </select>
-                            <button class="btn btn-success" style="padding: 5px 10px; font-size:12px;">OK</button>
+                            <button class="btn btn-success" style="padding: 5px 10px; font-size:12px;">valider</button>
                         </form>
                            {{-- si ce n'est pas (admin), bouton banner --}}
 
