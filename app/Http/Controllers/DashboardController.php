@@ -10,7 +10,7 @@ use App\Models\Reservation;
 
 class DashboardController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         $user = Auth::user();
 
         if($user->role === 'admin') {
@@ -24,11 +24,24 @@ class DashboardController extends Controller
         }
         else {
             //voir seulement catalogue + ses reservations
-            $resources = Resource::where('state', 'active')->get();
+            $query = Resource::where('state', 'active');
+
+            // Filtre par catégorie
+            if ($request->has('category_id') && $request->category_id != '') {
+                $query->where('category_id', $request->category_id);
+            }
+
+            // Barre de recherche
+            if ($request->has('search') && $request->search != '') {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            }
+
+            $resources = $query->get();
+            $categories = \App\Models\Category::all();
 
             $myReservations = Reservation::where('user_id', $user->id)->with('resource')->orderBy('created_at', 'desc')->get();
 
-            return view('dashboard', compact('resources', 'myReservations'));
+            return view('dashboard', compact('resources', 'myReservations', 'categories'));
         }
     }
 }

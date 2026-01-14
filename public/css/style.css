@@ -167,7 +167,7 @@ input, select, textarea {
     cursor: pointer;
     transform: scale(1.02);
     color: white;
-    border: 1px solid white;
+    box-shadow:  0 0px 0px 1px rgba(255, 255, 255, 0.5);
 }
 @keyframes animePage {
     0% {

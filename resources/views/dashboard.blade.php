@@ -96,13 +96,57 @@
     </div>
 
     <h2 class="rass"><i class="ri-macbook-line" style="vertical-align: middle;"></i> Catalogue Matériel (Réserver)</h2>
+    
+    <!-- Filtres -->
+    <div class="card" style="margin-bottom: 20px;">
+        <form method="GET" action="{{ route('dashboard') }}" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 200px;" class="anoInp">
+                <input type="text" name="search" placeholder="🔍 Rechercher un matériel..." value="{{ request('search') }}" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+            
+            <div style="flex: 1; min-width: 200px;" class="anoInp">
+                <select name="category_id" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background: rgb(99, 98, 98); color: white;">
+                    <option value="">Toutes les catégories</option>
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="padding: 10px 20px;">Filtrer</button>
+            @if(request('search') || request('category_id'))
+                <a href="{{ route('dashboard') }}" style="color: #ef4444; text-decoration: underline; white-space: nowrap;">Réinitialiser</a>
+            @endif
+        </form>
+    </div>
+
     <div class="card">
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: flex-start;">
             @foreach($resources as $resource)
-                <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center;">
-                    <h3>{{ $resource->name }}</h3>
-                    <p style="color: grey;">{{ $resource->category->name }}</p>
-                    <a href="{{ route('reservations.create', $resource->id) }}" class="btn btn-success">Réserver</a>
+                <div style="
+                    flex: 1 1 250px; 
+                    max-width: 350px; 
+                    border: 1px solid #ddd; 
+                    padding: 20px; 
+                    border-radius: 8px; 
+                    text-align: center; 
+                    display: flex; 
+                    flex-direction: column; 
+                    justify-content: space-between; 
+                    height: 100%; 
+                    background: #2D333B;
+                    color: white;
+                    margin: 0 auto;
+                ">
+                    <div>
+                        <h3 style="margin-bottom: 5px;">{{ $resource->name }}</h3>
+                        <p style="color: grey; margin-top: 0;">{{ $resource->category->name }}</p>
+                    </div>
+                    
+                    <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                        {{-- Suppression du bouton Voir Détails comme demandé, on garde juste Réserver --}}
+                        <a href="{{ route('reservations.create', $resource->id) }}" class="btn btn-success" style="display: block; width: 100%; box-sizing: border-box; text-align: center;">Réserver</a>
+                    </div>
                 </div>
             @endforeach
         </div>
