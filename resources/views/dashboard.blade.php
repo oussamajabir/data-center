@@ -3,7 +3,7 @@
 @section('content')
 <div class="card">
     <h1>Bonjour, {{ Auth::user()->name }} 👋</h1>
-    <p>Rôle : <span class="status-badge" style="background:#4f46e5;">{{ Auth::user()->role }}</span></p>
+    <p>Rôle : <span style="color:#4f46e5; font-weight: bold; padding: 0;">{{ Auth::user()->role }}</span></p>
 </div>
 
 <!-- VUE ADMIN -->
@@ -73,11 +73,22 @@
         @else
             <ul>
                 @foreach($myReservations as $resa)
-                    <li style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                    @php
+                        $isExpired = \Carbon\Carbon::parse($resa->end_date)->isPast();
+                    @endphp
+                    <li style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; {{ $isExpired ? 'opacity: 0.6;' : '' }}">
+                        @if($isExpired) <s> @endif
                         <strong>{{ $resa->resource->name }}</strong> :
                         Du {{ \Carbon\Carbon::parse($resa->start_date)->format('d/m H:i') }}
                         au {{ \Carbon\Carbon::parse($resa->end_date)->format('d/m H:i') }}
-                        <span class="status-badge" style="background: grey;">{{ $resa->status }}</span>
+                        @if($isExpired) </s> <span style="font-size: 0.8em; color: red;">(Terminé)</span> @endif
+                        
+                        @php
+                            $textColor = 'grey';
+                            if($resa->status === 'confirmed') $textColor = '#10b981'; // Vert
+                            if($resa->status === 'rejected') $textColor = '#ef4444'; // Rouge
+                        @endphp
+                        <span style="color: {{ $textColor }}; font-weight: bold; padding: 0;">{{ $resa->status }}</span>
                     </li>
                 @endforeach
             </ul>

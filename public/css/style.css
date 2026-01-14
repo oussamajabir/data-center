@@ -12,3 +12,10 @@ th, td { padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: left; }
 th { background: #f9fafb; }
 .form-group { margin-bottom: 15px; }
 input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+.btn-success { 
+    background: #22c55d; 
+    color: white; 
+    border-radius: 15px;
+    border :none;
+    padding: 8px 15px;
+}
