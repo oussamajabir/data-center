@@ -19,6 +19,14 @@ class UserController extends Controller
     public function promote(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
+        // Protection : Impossible de modifier le rôle du Super Admin
+        if ($user->email === 'admin@gmail.com') {
+            return back()->with('error', "Impossible de modifier le rôle de l'administrateur principal système.");
+        }
+        if ($user->email === 'respo@gmail.com') {
+            return back()->with('error', "Impossible de modifier le rôle du responsable principal système.");
+        }
         
         // Si la requête contient un rôle, on l'utilise, sinon 'interne' par défaut
         $targetRole = $request->input('role', 'interne');
