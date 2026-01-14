@@ -53,7 +53,7 @@
                                 <form action="{{ route('reservations.reject', $resa->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <button type="submit" class="btn btn-danger" style="padding: 6px 12px; font-size: 0.8rem; background-color: #ef4444; color: white; border:none;">Refuser</button>
+                                    <button type="submit" class="btn btn-danger" style="padding: 6px 12px; font-size: 0.8rem; color: white; border:none;">Refuser</button>
                                 </form>
                             </div>
                         </td>
