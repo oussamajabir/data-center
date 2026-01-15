@@ -190,6 +190,18 @@ input, select, textarea {
 .rajae {
     transform: translateY(-5%)
 }
+.mt-4 div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 8px 0px;
+}
+.mt-4 span {
+    white-space: nowrap;
+}
+.mt-4 input[type="checkbox"] {
+    transform: translate(-45%, 40%);
+}
 .mt-4 a {
     color: white;
 }
