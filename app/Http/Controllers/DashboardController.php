@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function index(Request $request) {
         $user = Auth::user();
 
-        if($user->role === 'admin') {
+        if($user->role === 'admin' || $user->role === 'responsable') {
             //voit toutes les demandes en attente
             $pendingReservations = Reservation::where('status', 'pending')->with(['user', 'resource'])->get();
             $stats = [

@@ -16,22 +16,25 @@ class RoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
         //si l'user pas connecter
         if(!Auth::check()) {
             return redirect('/login');
         }
-        $userRole = Auth::user()->role;
+        $user = Auth::user();
 
-        if($role == 'admin' && $userRole != 'admin') {
-            abort(403, "Accès interdit ! Réservé aux administrateurs.");
+        // 2. CAS SPÉCIAL : Si je suis ADMIN, je passe partout !
+         if ($user->role === 'admin') {
+            return $next($request);
         }
-        if($role == 'responsable' &&  !in_array($userRole, ['admin', 'responsable'])) {
-            abort(403, "Accès interdit ! Réservé aux responsables.");
+        // 3. CAS NORMAL : Est-ce que mon rôle est dans la liste autorisée ?
+         if (in_array($user->role, $roles)) {
+            return $next($request);
         }
 
 
-        return $next($request);
+          // 4. Sinon, dehors !
+        abort(403, "ACCÈS INTERDIT : Vous n'avez pas le bon rôle.");
     }
 }

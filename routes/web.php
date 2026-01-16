@@ -19,8 +19,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-// === ESPACE ADMIN (Membre 1 & 2) ===
-Route::middleware(['auth', 'role:admin'])->group(function() {
+// === ESPACE ADMIN (Membre 1 & 2) and responsable ===
+Route::middleware(['auth', 'role:admin,responsable'])->group(function() {
 
     // Gestion Matériel
     Route::get('/resources', [ResourceController::class, 'index'])->name('resources.index');
@@ -35,17 +35,26 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
     // Activer/Désactiver
     Route::put('/resources/{id}/toggle', [ResourceController::class, 'toggleState'])->name('resources.toggle');
 
-    // Gestion des Users
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::post('/users/{id}/promote', [UserController::class, 'promote'])->name('users.promote');
-    Route::post('/users/{id}/ban', [UserController::class, 'toggleBan'])->name('users.ban');
+    // // Gestion des Users
+    // Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    // Route::post('/users/{id}/promote', [UserController::class, 'promote'])->name('users.promote');
+    // Route::post('/users/{id}/ban', [UserController::class, 'toggleBan'])->name('users.ban');
 
     // Validation des réservations (Route PUT demandée)
     Route::put('/reservations/{id}/validate', [ReservationController::class, 'validateReservation'])->name('reservations.validate');
     Route::put('/reservations/{id}/reject', [ReservationController::class, 'rejectReservation'])->name('reservations.reject');
 });
 
-// === SYSTEME DE RESERVATION (Membre 3) ===
+// === ESPACE USER (Membre 3)  seul admin peut acceder a ca ===//
+Route::middleware(['auth', 'role:admin'])->group(function() {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users/{id}/promote', [UserController::class, 'promote'])->name('users.promote');
+    Route::post('/users/{id}/ban', [UserController::class, 'toggleBan'])->name('users.ban');
+
+});
+
+
+// === SYSTEME DE RESERVATION (Membre 3)  ESPACE MEMBRE (Tout le monde connecté) ===
 Route::middleware(['auth'])->group(function () {
     // Création d'une demande
     Route::get('/reserve/{resource_id}', [ReservationController::class, 'create'])->name('reservations.create');
