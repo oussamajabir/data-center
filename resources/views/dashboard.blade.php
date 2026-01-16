@@ -7,7 +7,7 @@
 </div>
 
 <!-- VUE ADMIN -->
-@if(Auth::user()->role === 'admin')
+@if(Auth::user()->role === 'admin' || Auth::user()->role === 'responsable')
     <div style="display: flex; gap: 20px;">
         <div class="card" style="flex:1; border-left: 4px solid #10b981;">
             <h3>Utilisateurs</h3>

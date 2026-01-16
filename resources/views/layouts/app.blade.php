@@ -16,7 +16,7 @@
             @auth
                 <a href="{{ route('dashboard') }}"><i class="ri-dashboard-3-line"></i> Dashboard</a>
 
-                @if(Auth::user()->role === 'admin')
+                @if(Auth::user()->role === 'admin' || Auth::user()->role === 'responsable')
                     <a href="{{ route('resources.index') }}"><i class="ri-hard-drive-2-line"></i> Gestion Matériel</a>
                 @endif
 
