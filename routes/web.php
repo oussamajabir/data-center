@@ -60,4 +60,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reserve/{resource_id}', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reserve', [ReservationController::class, 'store'])->name('reservations.store');
     Route::get('/resource/{id}', [ResourceController::class, 'show'])->name('resources.show');
+    // Notifications
+    Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
 });

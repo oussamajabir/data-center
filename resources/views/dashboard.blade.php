@@ -35,7 +35,7 @@
                 </thead>
                 <tbody>
                     @foreach($pendingReservations as $resa)
-                    <tr>
+                    <tr id="reservation-{{ $resa->id }}">
                         <td>{{ $resa->user->name }}</td>
                         <td>{{ $resa->resource->name }}</td>
                         <td>
@@ -76,19 +76,22 @@
                     @php
                         $isExpired = \Carbon\Carbon::parse($resa->end_date)->isPast();
                     @endphp
-                    <li style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; {{ $isExpired ? 'opacity: 0.6;' : '' }}">
+                    <li id="reservation-{{ $resa->id }}" style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; {{ $isExpired ? 'opacity: 0.6;' : '' }}">
+                    <div>
                         @if($isExpired) <s> @endif
                         <strong>{{ $resa->resource->name }}</strong> :
                         Du {{ \Carbon\Carbon::parse($resa->start_date)->format('d/m H:i') }}
                         au {{ \Carbon\Carbon::parse($resa->end_date)->format('d/m H:i') }}
                         @if($isExpired) </s> <span style="font-size: 0.8em; color: red;">(Terminé)</span> @endif
-                        
+                    </div>
+                    <div style="width: 100px; text-align: left;">  
                         @php
                             $textColor = 'grey';
                             if($resa->status === 'confirmed') $textColor = '#10b981'; // Vert
                             if($resa->status === 'rejected') $textColor = '#ef4444'; // Rouge
                         @endphp
                         <span style="color: {{ $textColor }}; font-weight: bold; padding: 0;">{{ $resa->status }}</span>
+                    </div> 
                     </li>
                 @endforeach
             </ul>

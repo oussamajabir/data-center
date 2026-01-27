@@ -6,6 +6,10 @@ use App\Models\Reservation;
 use App\Models\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewReservation;
+use App\Notifications\ReservationStatusUpdated;
 
 class ReservationController extends Controller
 {
@@ -54,7 +58,7 @@ class ReservationController extends Controller
         }
 
         // C. Tout est bon, on enregistre
-        Reservation::create([
+        $reservation = Reservation::create([
             'user_id' => Auth::id(),
             'resource_id' => $request->resource_id,
             'start_date' => $request->start_date,
@@ -62,6 +66,10 @@ class ReservationController extends Controller
             'reason' => $request->reason,
             'status' => 'pending' // En attente de validation
         ]);
+
+        // Notifier les admins et responsables
+        $admins = User::whereIn('role', ['admin', 'responsable'])->get();
+        Notification::send($admins, new NewReservation($reservation));
 
         return redirect()->route('dashboard')->with('success', 'Votre demande est envoyée ! Attendez la validation.');
     }
@@ -75,6 +83,9 @@ class ReservationController extends Controller
         $reservation->status = 'confirmed'; // "confirmed" = officiellement réservé
         $reservation->save();
 
+        // Notifier l'utilisateur
+        $reservation->user->notify(new ReservationStatusUpdated($reservation, 'confirmée'));
+
         return redirect()->back()->with('success', 'Réservation validée avec succès !');
     }
 
@@ -85,6 +96,9 @@ class ReservationController extends Controller
 
         $reservation->status = 'rejected';
         $reservation->save();
+
+        // Notifier l'utilisateur
+        $reservation->user->notify(new ReservationStatusUpdated($reservation, 'refusée'));
 
         return redirect()->back()->with('success', 'Réservation refusée.');
     }

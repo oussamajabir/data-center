@@ -25,6 +25,14 @@
                     <a href="{{route('users.index')}}"><i class="ri-group-line"></i> Gestion Utilisateurs</a>
                 @endif
 
+                <!-- Notifications -->
+                <a href="{{ route('notifications.index') }}" style="margin-right: 15px;">
+                    <i class="ri-notification-3-line" style="font-size: 1.2rem;"></i>
+                    @if(Auth::user()->unreadNotifications->count() > 0)
+                        <span class="badge">{{ Auth::user()->unreadNotifications->count() }}</span>
+                    @endif
+                </a>
+
                 <!-- Bouton de déconnexion -->
                 <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                     @csrf
