@@ -117,7 +117,7 @@
                 </thead>
                 <tbody>
                     @foreach($pendingReservations as $resa)
-                    <tr id="reservation-{{ $resa->id }}">
+                    <tr>
                         <td>{{ $resa->user->name }}</td>
                         <td>{{ $resa->resource->name }}</td>
                         <td>
@@ -159,7 +159,7 @@
                     @php
                         $isExpired = \Carbon\Carbon::parse($resa->end_date)->isPast();
                     @endphp
-                    <li id="reservation-{{ $resa->id }}" style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; {{ $isExpired ? 'opacity: 0.6;' : '' }}">
+                    <li style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; {{ $isExpired ? 'opacity: 0.6;' : '' }}">
                         @if($isExpired) <s> @endif
                         <strong>{{ $resa->resource->name }}</strong> :
                         Du {{ \Carbon\Carbon::parse($resa->start_date)->format('d/m H:i') }}
