@@ -11,9 +11,11 @@
                 Mes Incidents Signalés
             @endif
         </h2>
-        <a href="{{ route('incidents.create') }}" class="btn btn-primary"
-            style="padding: 10px 20px; border-radius: 20px; font-weight: bold; border:none;"> +
-            Signaler un incident</a>
+        @if(Auth::user()->role !== 'admin')
+            <a href="{{ route('incidents.create') }}" class="btn btn-primary"
+                style="padding: 10px 20px; border-radius: 20px; font-weight: bold; border:none;"> +
+                Signaler un incident</a>
+        @endif
     </div>
 
     @if(session('success'))
@@ -33,7 +35,7 @@
             <div style="display: flex; flex-direction: column; gap: 20px;">
                 @foreach($incidents as $incident)
                     <div
-                        style="background-color: #2D333B; padding: 25px; border-radius: 8px; border-left: 5px solid {{ $incident->priority === 'high' ? '#ef4444' : ($incident->priority === 'medium' ? '#f59e0b' : '#3b82f6') }}; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; color: white;">
+                        style="box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);background-color: #2D333B; padding: 25px; border-radius: 8px; border-left: 5px solid {{ $incident->priority === 'high' ? '#ef4444' : ($incident->priority === 'medium' ? '#f59e0b' : '#3b82f6') }}; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; color: white;">
 
                         <div style="flex: 1;">
                             <h3 style="margin: 0 0 10px 0; font-size: 1.2rem; text-transform: uppercase;">{{ $incident->title }}
@@ -78,6 +80,7 @@
                         </div>
 
                     </div>
+                    
                 @endforeach
             </div>
         @endif

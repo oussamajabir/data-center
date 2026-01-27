@@ -62,8 +62,7 @@
 
                 <!-- Description -->
                 <div style="margin-bottom: 30px;">
-                    <label for="description" style="display: block; margin-bottom: 8px; font-weight: bold;">Description
-                        détaillée <span style="color: red;">*</span></label>
+                    <label for="description" style="display: block; margin-bottom: 8px; font-weight: bold;">Description détaillée <span style="color: red;">*</span></label>
                     <textarea name="description" id="description" rows="5"
                         placeholder="Décrivez le problème rencontré en détail (au moins 20 caractères)..." required
                         style="width: 100%; padding: 12px; background-color: #4b5563; border: 1px solid #6b7280; color: white; border-radius: 6px; font-family: inherit;"></textarea>
@@ -76,7 +75,7 @@
                     <button type="submit" class="btn btn-primary"
                         style="padding: 12px 30px; font-weight: bold;border: none; border-radius: 25px;">
                         <i class="ri-send-plane-fill"></i> Signaler l'incident</button>
-                    <a href="{{ route('incidents.index') }}" class="btn"
+                    <a href="{{ route('incidents.index') }}" class="btn btn-danger"
                         style="padding: 12px 30px; font-weight: bold;color: white; border-radius: 25px; text-decoration: none;">Annuler</a>
                 </div>
 

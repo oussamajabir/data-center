@@ -48,7 +48,7 @@ class IncidentController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|min:20',
+            'description' => 'required|string',
             'priority' => 'required|in:low,medium,high',
             'resource_id' => 'nullable|exists:resources,id',
             'reservation_id' => 'nullable|exists:reservations,id',
